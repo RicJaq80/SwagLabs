@@ -1,2 +1,6 @@
-/.pytest_cache
-/automation.log
+*/__pycache__/
+.idea/
+.pytest_cache/
+*.log
+*.pyc
+*.code-workspace
