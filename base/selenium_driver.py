@@ -114,7 +114,7 @@ class SeleniumMethods():
                                                      ElementNotVisibleException,
                                                      ElementNotSelectableException])
             element = wait.until(EC.visibility_of_element_located((byType, locator)))
-            self.log.info("Element: " + element + " appeared on the web page")
+            self.log.info("Element: " + str(element) + " appeared on the web page")
         except:
-            self.log.error("Element: " + element + " did Not appear on the web page")
+            self.log.error("Element: " + str(element) + " did Not appear on the web page")
         return element
