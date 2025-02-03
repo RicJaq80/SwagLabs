@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-from selenium import webdriver
-=======
 # from selenium import webdriver
 # from selenium.webdriver.common.by import By
->>>>>>> 555d9278d76256233946c616b2daf8da582efe9f
 from pages.login_page import LoginPage
 import unittest
 import time

@@ -1,4 +1,3 @@
-from selenium.webdriver.common.by import By
 from base.selenium_driver import SeleniumMethods
 
 class AddToCartPage(SeleniumMethods):
