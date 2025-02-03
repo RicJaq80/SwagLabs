@@ -1,18 +1,16 @@
 from selenium import webdriver
 from pages.addToCart_page import AddToCartPage
 import unittest
-import time
 import pytest
 
+@pytest.mark.usefixtures("ClassSetup", "MethodSetup")
 class AddToCartTest(unittest.TestCase):
-    baseUrl = "https://www.saucedemo.com/"
-    driver = webdriver.Chrome()
-    driver.maximize_window()
-    driver.implicitly_wait(2)
-    addToCart_methods = AddToCartPage(driver)
+
+    @pytest.fixture(autouse=True)
+    def classSetUp(self):
+        self.addToCart_methods = AddToCartPage(self.driver)
     
     def test_select_product(self):
-        self.driver.get(self.baseUrl)
 
         self.addToCart_methods.SelectCheckout()
 
