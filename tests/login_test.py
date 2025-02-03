@@ -24,7 +24,6 @@ class LoginTest(unittest.TestCase):
         self.log.info("Running Valid Login")
         self.login_methods.login(userName, password)
         
-
         time.sleep(2)
         webTitle = "Swag Labs"
         self.log.info("Running Verification of Login")
