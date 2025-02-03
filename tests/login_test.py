@@ -1,16 +1,16 @@
-<<<<<<< HEAD
-from selenium import webdriver
-=======
 # from selenium import webdriver
 # from selenium.webdriver.common.by import By
->>>>>>> 555d9278d76256233946c616b2daf8da582efe9f
 from pages.login_page import LoginPage
 import unittest
 import time
 import pytest
+import utilities.custome_logger as cl
+import logging
 
 @pytest.mark.usefixtures("ClassSetup", "MethodSetup")
 class LoginTest(unittest.TestCase):
+
+    log = cl.customLogger(logging.DEBUG)
 
     @pytest.fixture(autouse=True)
     def classSetUp(self):
@@ -18,26 +18,33 @@ class LoginTest(unittest.TestCase):
 
     @pytest.mark.run(order=2)
     def test_valid_login(self):
+        
         userName = "standard_user"
         password = ""
-
+        self.log.info("Running Valid Login")
         self.login_methods.login(userName, password)
-        time.sleep(1)
+        
 
+        time.sleep(2)
         webTitle = "Swag Labs"
-        webTitleLocator = "//div[@class='app_logo']"
-        result = self.login_methods.verifyLogin(webTitleLocator)
+        self.log.info("Running Verification of Login")
+        result = self.login_methods.verifyLogin()
         assert result == webTitle
 
 
     @pytest.mark.run(order=1)
+    # @pytest.mark.skip(reason="test valid for now")
     def test_invalid_login(self):
+        self.log.info("Running Logout for Invalid Test")
+        self.login_methods.logoutSession()
+
         userName = "standard_friend"
         password = "secret_sauce"
 
+        time.sleep(2)
+        self.log.info("Running Invalid Login")
         self.login_methods.login(userName, password)
         time.sleep(3)
 
-        error_locator = "h3[data-test='error']"
-        result = self.login_methods.verifyLoginInvalid(error_locator)
+        result = self.login_methods.verifyLoginInvalid()
         assert result == True
