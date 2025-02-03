@@ -1,8 +1,9 @@
-from selenium import webdriver
+# from selenium import webdriver
 from pages.login_page import LoginPage
 import utilities.custom_logger as cl
 import pytest
 import logging
+from base.webdriver_setup import WebDriverSetup
 
 @pytest.fixture()
 def MethodSetup():
@@ -15,13 +16,9 @@ def MethodSetup():
 def ClassSetup(request, browser):
     log = cl.customLogger(logging.DEBUG)
     log.info("Start Class Module")
-    baseUrl = "https://www.saucedemo.com/"
-    if browser == "chrome":
-        log.info("Running on Chrome")
-        driver = webdriver.Chrome()
-        driver.maximize_window()
-        driver.implicitly_wait(2)
-        driver.get(baseUrl)
+
+    driver_instance = WebDriverSetup(browser)
+    driver = driver_instance.driver_setup()
 
     login_methods = LoginPage(driver)
     userName = "standard_user"

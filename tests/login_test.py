@@ -24,10 +24,11 @@ class LoginTest(unittest.TestCase):
         self.log.info("Running Valid Login")
         self.login_methods.login(userName, password)
         
-        time.sleep(2)
+        time.sleep(1)
         webTitle = "Swag Labs"
         self.log.info("Running Verification of Login")
         result = self.login_methods.verifyLogin()
+        time.sleep(1)
         assert result == webTitle
 
 
@@ -40,10 +41,11 @@ class LoginTest(unittest.TestCase):
         userName = "standard_friend"
         password = "secret_sauce"
 
-        time.sleep(2)
+        time.sleep(1)
         self.log.info("Running Invalid Login")
         self.login_methods.login(userName, password)
-        time.sleep(3)
+        time.sleep(1)
 
         result = self.login_methods.verifyLoginInvalid()
+        time.sleep(1)
         assert result == True
