@@ -1,29 +1,40 @@
 from selenium import webdriver
+from pages.login_page import LoginPage
+import utilities.custome_logger as cl
 import pytest
+import logging
 
 @pytest.fixture()
 def MethodSetup():
-    print("\nStart Test Case")
+    log = cl.customLogger(logging.DEBUG)
+    log.info("Start Test Case")
     yield
-    print("\nFinish Test Case")
+    log.info("Finish Test Case")
 
 @pytest.fixture(scope="class")
 def ClassSetup(request, browser):
-    print("\nStart Class Module")
+    log = cl.customLogger(logging.DEBUG)
+    log.info("Start Class Module")
     baseUrl = "https://www.saucedemo.com/"
     if browser == "chrome":
-        print("Running on Chrome")
+        log.info("Running on Chrome")
         driver = webdriver.Chrome()
         driver.maximize_window()
         driver.implicitly_wait(2)
         driver.get(baseUrl)
+
+    login_methods = LoginPage(driver)
+    userName = "standard_user"
+    password = "secret_sauce"
+    log.info("Login on ConfTest")
+    login_methods.login(userName, password)
 
     if request.cls is not None:
         request.cls.driver = driver
     
     yield driver
     driver.quit()
-    print("Finish Class Module")
+    log.info("Finish Class Module")
 
 def pytest_addoption(parser):
     parser.addoption("--browser")
