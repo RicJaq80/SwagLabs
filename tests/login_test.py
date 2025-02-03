@@ -4,7 +4,7 @@ from pages.login_page import LoginPage
 import unittest
 import time
 import pytest
-import utilities.custome_logger as cl
+import utilities.custom_logger as cl
 import logging
 
 @pytest.mark.usefixtures("ClassSetup", "MethodSetup")

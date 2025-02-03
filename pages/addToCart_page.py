@@ -37,6 +37,7 @@ class AddToCartPage(SeleniumMethods):
         self.getDescription()
         # self.clickCheckoutButton()
     
-    def verifyAddToCart(self, locator):
-        result = self.isElementPresent(locator, locatorType="xpath")
+    def verifyAddToCart(self):
+        cart_locator = "//span[.='Your Cart']"
+        result = self.isElementPresent(cart_locator, locatorType="xpath")
         return result

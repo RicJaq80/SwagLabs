@@ -1,6 +1,6 @@
 from selenium import webdriver
 from pages.login_page import LoginPage
-import utilities.custome_logger as cl
+import utilities.custom_logger as cl
 import pytest
 import logging
 

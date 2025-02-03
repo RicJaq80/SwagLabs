@@ -14,6 +14,6 @@ class AddToCartTest(unittest.TestCase):
 
         self.addToCart_methods.SelectCheckout()
 
-        cart_locator = "//span[.='Your Cart']"
-        result = self.addToCart_methods.verifyAddToCart(cart_locator)
+        
+        result = self.addToCart_methods.verifyAddToCart()
         assert result == True
