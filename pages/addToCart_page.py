@@ -1,4 +1,5 @@
 from base.selenium_driver import SeleniumMethods
+import time
 
 class AddToCartPage(SeleniumMethods):
 
@@ -33,7 +34,9 @@ class AddToCartPage(SeleniumMethods):
     
     def SelectCheckout(self):
         self.clickSelectProduct()
+        time.sleep(1)
         self.clickShoppingCart()
+        time.sleep(1)
         self.getDescription()
         # self.clickCheckoutButton()
     
