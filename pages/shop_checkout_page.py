@@ -13,7 +13,7 @@ class ShopCheckouPage(SeleniumMethods):
     select_product = "add-to-cart-sauce-labs-fleece-jacket"
     shopping_cart = "//a[@class='shopping_cart_link']"
     description = "//div[.='Sauce Labs Fleece Jacket']"
-    # checkout_button = "//button[@id='checkout']"
+    checkout_button = "//button[@id='checkout']"
 
     #####################################
     # LOCATORS
@@ -27,10 +27,8 @@ class ShopCheckouPage(SeleniumMethods):
     def getDescription(self):
         self.isElementPresent(self.description, locatorType="xpath")
     
-    """
     def clickCheckoutButton(self):
         self.elementClick(self.checkout_button, locatorType="xpath")
-    """
     
     def SelectCheckout(self):
         self.clickSelectProduct()
@@ -38,7 +36,7 @@ class ShopCheckouPage(SeleniumMethods):
         self.clickShoppingCart()
         time.sleep(1)
         self.getDescription()
-        # self.clickCheckoutButton()
+        self.clickCheckoutButton()
     
     def verifyAddToCart(self):
         cart_locator = "//span[.='Your Cart']"
