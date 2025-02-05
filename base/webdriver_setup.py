@@ -12,6 +12,7 @@ class WebDriverSetup():
     def driver_setup(self):
         baseUrl = "https://www.saucedemo.com/"
         if self.browser == "chrome":
+           self.log.info("Running on Chrome")
            driver = webdriver.Chrome()
         elif self.browser == "firefox":
             self.log.info("Running on Firefox")
