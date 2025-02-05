@@ -1,7 +1,7 @@
 from base.selenium_driver import SeleniumMethods
 import time
 
-class AddToCartPage(SeleniumMethods):
+class ShopCheckouPage(SeleniumMethods):
 
     def __init__(self, driver):
         super().__init__(driver)
