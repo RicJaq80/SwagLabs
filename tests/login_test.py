@@ -1,6 +1,5 @@
-# from selenium import webdriver
-# from selenium.webdriver.common.by import By
 from pages.login_page import LoginPage
+from utilities.test_status import TestStatus
 import unittest
 import time
 import pytest
@@ -15,6 +14,7 @@ class LoginTest(unittest.TestCase):
     @pytest.fixture(autouse=True)
     def classSetUp(self):
         self.login_methods = LoginPage(self.driver)
+        self.test_status = TestStatus()
 
     @pytest.mark.run(order=2)
     def test_valid_login(self):
@@ -29,7 +29,8 @@ class LoginTest(unittest.TestCase):
         self.log.info("Running Verification of Login")
         result = self.login_methods.verifyLogin()
         time.sleep(1)
-        assert result == webTitle
+        # assert result == webTitle
+        self.test_status.markFinal("Verification Valid Login", result, "Valid Login")
 
 
     @pytest.mark.run(order=1)
@@ -48,4 +49,4 @@ class LoginTest(unittest.TestCase):
 
         result = self.login_methods.verifyLoginInvalid()
         time.sleep(1)
-        assert result == True
+        self.test_status.markFinal("Verfication Invalid Login", result, "Invalid Login")
