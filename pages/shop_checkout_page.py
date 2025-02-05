@@ -17,10 +17,10 @@ class ShopCheckoutPage(SeleniumMethods):
     ############################################
     # LOCATORS to add information after checkout
     ############################################
-    first_name_locator = "first-name" #id
-    last_name_locator = "last-name" #id
-    postal_code_locator = "postal-code" #id
-
+    first_name_locator = "first-name" # id
+    last_name_locator = "last-name" # id
+    postal_code_locator = "postal-code" # id
+    continue_locator = "continue" # id
     #####################################################
     # Actions on Locators from select product to checkout
     #####################################################
@@ -45,6 +45,9 @@ class ShopCheckoutPage(SeleniumMethods):
     def sendPostalCode(self, first_name):
         self.elementSendKeys(first_name, self.postal_code_locator)
     
+    def clickContinueButton(self):
+        self.elementClick(self.continue_locator)
+    
     ############################################################
     # Method that calls actions from select product to checkout
     ############################################################
@@ -64,6 +67,8 @@ class ShopCheckoutPage(SeleniumMethods):
         self.sendFirstName(first_name)
         self.sendLastName(last_name)
         self.sendPostalCode(postal_code)
+        time.sleep(1)
+        self.clickContinueButton()
         time.sleep(1)
     
     ######################################

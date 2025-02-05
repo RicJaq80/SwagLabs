@@ -16,7 +16,7 @@ class ShopCheckoutTest(unittest.TestCase):
     
     @pytest.mark.run(order=1)
     def test_select_product(self):
-        self.log.info("Starting Add To Cart Test")
+        self.log.info("Starting Select/Add To Cart Test")
         self.shopCheckout_methods.selectProduct()
 
         add_to_cart_text = self.shopCheckout_methods.verifyAddToCart()
@@ -29,12 +29,16 @@ class ShopCheckoutTest(unittest.TestCase):
         self.log.info("Starting YourCart Test")
         self.shopCheckout_methods.selectCheckout()
 
-    @pytest.mark.skip(reason="in development")
+    @pytest.mark.run(order=2)
     def test_checkout_information(self):
         first_name = "Tony"
         last_name = "Jones"
-        postal_code = 90210
-        self.log.info("Start Verification Page Test")
+        postal_code = "90210"
+        self.log.info("Starting Your Information text Test")
+        your_information = self.shopCheckout_methods.confirmInformationPage()
+        assert your_information == True
         
+        self.log.info("Stating Checkout Information Test")
         self.shopCheckout_methods.checkoutInformation(first_name, last_name, postal_code)
+
         
