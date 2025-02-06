@@ -21,6 +21,10 @@ class ShopCheckoutPage(SeleniumMethods):
     last_name_locator = "last-name" # id
     postal_code_locator = "postal-code" # id
     continue_locator = "continue" # id
+    finish_locator = "//button[@id='finish']" # xpath
+    complete_locator = "//span[.='Checkout: Complete!']"
+    thankyou_locator = "//h2[normalize-space()='Thank you for your order!']"
+    back_locator = "back-to-products"
 
     #####################################################
     # Actions on Locators from select product to checkout
@@ -49,6 +53,12 @@ class ShopCheckoutPage(SeleniumMethods):
     def clickContinueButton(self):
         self.elementClick(self.continue_locator)
     
+    def clickFinishButton(self):
+        self.elementClick(self.finish_locator, locatorType="xpath")
+    
+    def clickBackHomeButton(self):
+        self.elementClick(self.back_locator)
+    
     ############################################################
     # Method that calls actions from select product to checkout
     ############################################################
@@ -74,12 +84,26 @@ class ShopCheckoutPage(SeleniumMethods):
         self.clickContinueButton()
         time.sleep(1)
     
+    def checkoutFinish(self):
+        self.clickFinishButton()
+    
+    def checkoutComplete(self):
+        self.clickBackHomeButton()
+    
     ######################################
     # Verify we landed at Products page after login
     ######################################
     def verifyProductsPage(self):
         products = "//span[.='Products']"
         result = self.isElementPresent(products, locatorType="xpath")
+        return result
+
+    ######################################
+    # Verify the Your Cart text
+    ######################################    
+    def verifyAddToCart(self):
+        cart_locator = "//span[.='Your Cart']"
+        result = self.isElementPresent(cart_locator, locatorType="xpath")
         return result
 
     ######################################
@@ -98,20 +122,35 @@ class ShopCheckoutPage(SeleniumMethods):
         result = self.isElementPresent(description, locatorType="xpath")
         return result
 
-    ######################################
-    # Verify the Your Cart text
-    ######################################    
-    def verifyAddToCart(self):
-        cart_locator = "//span[.='Your Cart']"
-        #cart_locator = "//span[@class='title']"
-        result = self.isElementPresent(cart_locator, locatorType="xpath")
-        return result
 
     ######################################
     # Verify the Your Information text
     ######################################
     def confirmInformationPage(self):
-        # confirm_page = "//span[@class='title']"
         confirm_page = "//span[.='Checkout: Your Information']"
         result = self.isElementPresent(confirm_page, locatorType="xpath")
+        return result
+    
+    ######################################
+    # Verify the Checkout Overview text
+    ######################################    
+    def verifyCheckoutOverview(self):
+        overview_locator = "//span[.='Checkout: Overview']"
+        result = self.isElementPresent(overview_locator, locatorType="xpath")
+        return result
+
+    ######################################
+    # Verify the Checkout Complete text
+    ######################################    
+    def verifyCheckoutComplete(self):
+        complete_locator = "//span[.='Checkout: Complete!']"
+        result = self.isElementPresent(complete_locator, locatorType="xpath")
+        return result
+    
+    ######################################
+    # Verify the Thank You text
+    ######################################    
+    def verifyThankyou(self):
+        thankyou_locator = "//h2[normalize-space()='Thank you for your order!']"
+        result = self.isElementPresent(thankyou_locator, locatorType="xpath")
         return result
