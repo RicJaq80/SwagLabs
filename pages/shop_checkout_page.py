@@ -1,7 +1,7 @@
-from base.selenium_driver import SeleniumMethods
+from base.common_page import CommonPage
 import time
 
-class ShopCheckoutPage(SeleniumMethods):
+class ShopCheckoutPage(CommonPage):
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -81,6 +81,8 @@ class ShopCheckoutPage(SeleniumMethods):
         self.sendLastName(last_name)
         self.sendPostalCode(postal_code)
         time.sleep(1)
+    
+    def continueButton(self):
         self.clickContinueButton()
         time.sleep(1)
     
@@ -91,66 +93,87 @@ class ShopCheckoutPage(SeleniumMethods):
         self.clickBackHomeButton()
     
     ######################################
+    # General Function to Verify Text
+    ######################################
+    def verifyText(self, locator, locatorType="id"):
+        return super().verifyText(locator, locatorType)
+    
+    ######################################
     # Verify we landed at Products page after login
     ######################################
+    """
     def verifyProductsPage(self):
         products = "//span[.='Products']"
         result = self.isElementPresent(products, locatorType="xpath")
         return result
-
-    ######################################
-    # Verify the Your Cart text
-    ######################################    
-    def verifyAddToCart(self):
-        cart_locator = "//span[.='Your Cart']"
-        result = self.isElementPresent(cart_locator, locatorType="xpath")
-        return result
+    """
 
     ######################################
     # Verify product added to the shopping cart
     ######################################
+    """
     def verifyShoppingCart(self):
         shopping_cart_badge = "//span[@class='shopping_cart_badge']"
         result = self.isElementPresent(shopping_cart_badge, locatorType="xpath")
         return result
+    """
+
+    ######################################
+    # Verify the Your Cart text
+    ######################################    
+    """
+    def verifyAddToCart(self):
+        cart_locator = "//span[.='Your Cart']"
+        result = self.isElementPresent(cart_locator, locatorType="xpath")
+        return result
+    """
 
     ######################################
     # Verify the selected product text
     ######################################
+    """
     def verifyDescription(self):
         description = "//div[.='Sauce Labs Fleece Jacket']"
         result = self.isElementPresent(description, locatorType="xpath")
         return result
-
+    """
 
     ######################################
     # Verify the Your Information text
     ######################################
+    """
     def confirmInformationPage(self):
         confirm_page = "//span[.='Checkout: Your Information']"
         result = self.isElementPresent(confirm_page, locatorType="xpath")
         return result
+    """
     
     ######################################
     # Verify the Checkout Overview text
     ######################################    
+    """
     def verifyCheckoutOverview(self):
         overview_locator = "//span[.='Checkout: Overview']"
         result = self.isElementPresent(overview_locator, locatorType="xpath")
         return result
+    """
 
     ######################################
     # Verify the Checkout Complete text
-    ######################################    
+    ######################################   
+    """ 
     def verifyCheckoutComplete(self):
         complete_locator = "//span[.='Checkout: Complete!']"
         result = self.isElementPresent(complete_locator, locatorType="xpath")
         return result
+    """
     
     ######################################
     # Verify the Thank You text
     ######################################    
+    """
     def verifyThankyou(self):
         thankyou_locator = "//h2[normalize-space()='Thank you for your order!']"
         result = self.isElementPresent(thankyou_locator, locatorType="xpath")
         return result
+    """
