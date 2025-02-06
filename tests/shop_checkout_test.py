@@ -1,5 +1,5 @@
-from selenium import webdriver
 from pages.shop_checkout_page import ShopCheckoutPage
+from utilities.test_status import TestStatus
 import unittest
 import pytest
 import utilities.custom_logger as cl
@@ -13,6 +13,7 @@ class ShopCheckoutTest(unittest.TestCase):
     @pytest.fixture(autouse=True)
     def classSetUp(self):
         self.shopCheckout_methods = ShopCheckoutPage(self.driver)
+        self.test_status = TestStatus()
     
     @pytest.mark.run(order=1)
     def test_select_product(self):
@@ -20,11 +21,11 @@ class ShopCheckoutTest(unittest.TestCase):
         self.shopCheckout_methods.selectProduct()
 
         add_to_cart_text = self.shopCheckout_methods.verifyAddToCart()
-        assert add_to_cart_text == True
+        self.test_status.mark(add_to_cart_text, "Verify Add To Cart")
 
         self.log.info("Starting Product Text Verification Test")
         your_cart_text = self.shopCheckout_methods.verifyDescription()
-        assert your_cart_text == True
+        self.test_status.markFinal("Your Cart Text", your_cart_text, "Verify Your Cart Text")
 
         self.log.info("Starting YourCart Test")
         self.shopCheckout_methods.selectCheckout()
@@ -36,9 +37,8 @@ class ShopCheckoutTest(unittest.TestCase):
         postal_code = "90210"
         self.log.info("Starting Your Information text Test")
         your_information = self.shopCheckout_methods.confirmInformationPage()
-        assert your_information == True
+        self.test_status.markFinal("Customer Information", 
+                                   your_information, "Verify Customer Information")
         
         self.log.info("Stating Checkout Information Test")
         self.shopCheckout_methods.checkoutInformation(first_name, last_name, postal_code)
-
-        
