@@ -21,6 +21,7 @@ class ShopCheckoutPage(SeleniumMethods):
     last_name_locator = "last-name" # id
     postal_code_locator = "postal-code" # id
     continue_locator = "continue" # id
+
     #####################################################
     # Actions on Locators from select product to checkout
     #####################################################
@@ -54,6 +55,8 @@ class ShopCheckoutPage(SeleniumMethods):
     def selectProduct(self):
         self.clickSelectProduct()
         time.sleep(1)
+    
+    def clickShoppingCartButton(self):
         self.clickShoppingCart()
         time.sleep(1)
     
@@ -72,6 +75,22 @@ class ShopCheckoutPage(SeleniumMethods):
         time.sleep(1)
     
     ######################################
+    # Verify we landed at Products page after login
+    ######################################
+    def verifyProductsPage(self):
+        products = "//span[.='Products']"
+        result = self.isElementPresent(products, locatorType="xpath")
+        return result
+
+    ######################################
+    # Verify product added to the shopping cart
+    ######################################
+    def verifyShoppingCart(self):
+        shopping_cart_badge = "//span[@class='shopping_cart_badge']"
+        result = self.isElementPresent(shopping_cart_badge, locatorType="xpath")
+        return result
+
+    ######################################
     # Verify the selected product text
     ######################################
     def verifyDescription(self):
@@ -83,8 +102,8 @@ class ShopCheckoutPage(SeleniumMethods):
     # Verify the Your Cart text
     ######################################    
     def verifyAddToCart(self):
-        # cart_locator = "//span[.='Your Cart']"
-        cart_locator = "//span[@class='title']"
+        cart_locator = "//span[.='Your Cart']"
+        #cart_locator = "//span[@class='title']"
         result = self.isElementPresent(cart_locator, locatorType="xpath")
         return result
 
@@ -92,6 +111,7 @@ class ShopCheckoutPage(SeleniumMethods):
     # Verify the Your Information text
     ######################################
     def confirmInformationPage(self):
-        confirm_page = "//span[@class='title']"
+        # confirm_page = "//span[@class='title']"
+        confirm_page = "//span[.='Checkout: Your Information']"
         result = self.isElementPresent(confirm_page, locatorType="xpath")
         return result
