@@ -1,9 +1,11 @@
 from pages.shop_checkout_page import ShopCheckoutPage
+from pages.navigation import NavigationPage
 from utilities.test_status import TestStatus
 import unittest
 import pytest
 import utilities.custom_logger as cl
 import logging
+import time
 
 @pytest.mark.usefixtures("ClassSetup", "MethodSetup")
 class ShopCheckoutTest(unittest.TestCase):
@@ -13,6 +15,7 @@ class ShopCheckoutTest(unittest.TestCase):
     @pytest.fixture(autouse=True)
     def classSetUp(self):
         self.shopCheckout_methods = ShopCheckoutPage(self.driver)
+        self.navigation = NavigationPage(self.driver)
         self.test_status = TestStatus()
 
     @pytest.mark.run(order=1)
@@ -121,6 +124,7 @@ class ShopCheckoutTest(unittest.TestCase):
         
         self.log.info("Starting the Back Home step")
         self.shopCheckout_methods.checkoutComplete()
+        time.sleep(2)
 
         self.log.info("Starting Products text Test")
         # products_page = self.shopCheckout_methods.verifyProductsPage()
@@ -129,3 +133,6 @@ class ShopCheckoutTest(unittest.TestCase):
                                                              locatorType="xpath")
         self.test_status.markFinal("Checkout Complete Test", 
                                    products_page, "Verify Products Page")
+        self.navigation.navigationMenu()
+        self.navigation.navigationLogOut()
+        time.sleep(2)
