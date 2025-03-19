@@ -1,5 +1,3 @@
-# from selenium import webdriver
-# from selenium.webdriver.common.by import By
 from base.selenium_driver import SeleniumMethods
 import time
 
@@ -22,7 +20,6 @@ class LoginPage(SeleniumMethods):
     def enterUserName(self, userName):
         self.elementSendKeys(userName, self.user_name_field)
 
-    
     def enterPassword(self, password):
         self.elementSendKeys(password, self.password_field)
     

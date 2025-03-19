@@ -96,7 +96,8 @@ class ShopCheckoutPage(CommonPage):
     # General Function to Verify Text
     ######################################
     def verifyText(self, locator, locatorType="id"):
-        return super().verifyText(locator, locatorType)
+        # return super().verifyText(locator, locatorType)
+        return self.verifyGeneralText(locator, locatorType)
     
     ######################################
     # Verify we landed at Products page after login
