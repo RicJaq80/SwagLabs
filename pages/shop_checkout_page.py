@@ -10,7 +10,7 @@ class ShopCheckoutPage(CommonPage):
     ##########################################
     # LOCATORS from select product to checkout
     ##########################################
-    select_product = "add-to-cart-sauce-labs-fleece-jacket"
+    # select_product = "add-to-cart-sauce-labs-fleece-jacket"
     # select_product_2 = "add-to-cart-sauce-labs-onesie"
     shopping_cart = "//a[@class='shopping_cart_link']"
     checkout_button = "//button[@id='checkout']"
@@ -64,13 +64,11 @@ class ShopCheckoutPage(CommonPage):
     ############################################################
     # Method that calls actions from select product to checkout
     ############################################################
-    def selectProduct(self):
+    def selectProduct(self, clickLst):
         # self.clickSelectProduct()
-        self.elementClick(self.select_product)
-        """
+        # self.elementClick(self.select_product)
         for element in clickLst:
             self.elementClick(element)
-        """
         time.sleep(1)
     
     def clickShoppingCartButton(self):

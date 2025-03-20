@@ -28,7 +28,8 @@ class ShopCheckoutTest(unittest.TestCase):
         self.test_status.mark(products_page, "Verify Products Page")
 
         self.log.info("Starting Select/Add To Cart Test")
-        self.shopCheckout_methods.selectProduct()
+        select_product = ["add-to-cart-sauce-labs-fleece-jacket"]
+        self.shopCheckout_methods.selectProduct(select_product)
 
         self.log.info("Starting Shopping Cart Added Product text Test")
         # shopping_cart = self.shopCheckout_methods.verifyShoppingCart()
