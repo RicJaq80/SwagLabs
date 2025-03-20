@@ -11,6 +11,7 @@ class ShopCheckoutPage(CommonPage):
     # LOCATORS from select product to checkout
     ##########################################
     select_product = "add-to-cart-sauce-labs-fleece-jacket"
+    # select_product_2 = "add-to-cart-sauce-labs-onesie"
     shopping_cart = "//a[@class='shopping_cart_link']"
     checkout_button = "//button[@id='checkout']"
 
@@ -29,8 +30,9 @@ class ShopCheckoutPage(CommonPage):
     #####################################################
     # Actions on Locators from select product to checkout
     #####################################################
+    """
     def clickSelectProduct(self):
-        self.elementClick(self.select_product)
+        self.elementClick(self.select_product_1)
     
     def clickShoppingCart(self):
         self.elementClick(self.shopping_cart, locatorType="xpath")
@@ -58,39 +60,54 @@ class ShopCheckoutPage(CommonPage):
     
     def clickBackHomeButton(self):
         self.elementClick(self.back_locator)
-    
+    """
     ############################################################
     # Method that calls actions from select product to checkout
     ############################################################
     def selectProduct(self):
-        self.clickSelectProduct()
+        # self.clickSelectProduct()
+        self.elementClick(self.select_product)
+        """
+        for element in clickLst:
+            self.elementClick(element)
+        """
         time.sleep(1)
     
     def clickShoppingCartButton(self):
-        self.clickShoppingCart()
+        # self.clickShoppingCart()
+        self.elementClick(self.shopping_cart, locatorType="xpath")
         time.sleep(1)
     
     def selectCheckout(self):
-        self.clickCheckoutButton()
+        # self.clickCheckoutButton()
+        self.elementClick(self.checkout_button, locatorType="xpath")
     
     ############################################################
     # Method that calls actions to add customer information
     ############################################################
     def checkoutInformation(self, first_name, last_name, postal_code):
+        """
         self.sendFirstName(first_name)
         self.sendLastName(last_name)
         self.sendPostalCode(postal_code)
+        """
+        self.elementSendKeys(first_name, self.first_name_locator)
+        self.elementSendKeys(last_name, self.last_name_locator)
+        self.elementSendKeys(postal_code, self.postal_code_locator)
         time.sleep(1)
     
     def continueButton(self):
-        self.clickContinueButton()
+        # self.clickContinueButton()
+        self.elementClick(self.continue_locator)
         time.sleep(1)
     
     def checkoutFinish(self):
-        self.clickFinishButton()
-    
+        # self.clickFinishButton()
+        self.elementClick(self.finish_locator, locatorType="xpath")
+
     def checkoutComplete(self):
-        self.clickBackHomeButton()
+        # self.clickBackHomeButton()
+        self.elementClick(self.back_locator)
     
     ######################################
     # General Function to Verify Text

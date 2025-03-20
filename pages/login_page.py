@@ -17,6 +17,7 @@ class LoginPage(SeleniumMethods):
     ###################################
     # Methods to perform actions
     ###################################
+    """
     def enterUserName(self, userName):
         self.elementSendKeys(userName, self.user_name_field)
 
@@ -25,12 +26,16 @@ class LoginPage(SeleniumMethods):
     
     def clickLoginButton(self):
         self.elementClick(self.login_button)
+    """
     
     def login(self, userName, password):
         self.clearFields()
-        self.enterUserName(userName)
-        self.enterPassword(password)
-        self.clickLoginButton()
+        # self.enterUserName(userName)
+        self.elementSendKeys(userName, self.user_name_field)
+        # self.enterPassword(password)
+        self.elementSendKeys(password, self.password_field)
+        # self.clickLoginButton()
+        self.elementClick(self.login_button)
     
     def verifyLogin(self):
         webTitleLocator = "//div[@class='app_logo']"
