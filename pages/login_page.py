@@ -49,9 +49,12 @@ class LoginPage(SeleniumMethods):
         clearPasswordField = self.getElement(locator=self.password_field)
         clearPasswordField.clear()
 
+    # moved to Navigation class
+    """
     def logoutSession(self):
         select_menu = "react-burger-menu-btn"
         select_logout = "logout_sidebar_link"
         self.elementClick(select_menu, locatorType="id")
         self.elementClick(select_logout, locatorType="id")
         time.sleep(2)
+    """

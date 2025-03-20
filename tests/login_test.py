@@ -1,5 +1,6 @@
 from pages.login_page import LoginPage
 from utilities.test_status import TestStatus
+from pages.navigation import NavigationPage
 import unittest
 import time
 import pytest
@@ -14,9 +15,10 @@ class LoginTest(unittest.TestCase):
     @pytest.fixture(autouse=True)
     def classSetUp(self):
         self.login_methods = LoginPage(self.driver)
+        self.navigation = NavigationPage(self.driver)
         self.test_status = TestStatus()
 
-    @pytest.mark.run(order=2)
+    # @pytest.mark.run(order=2)
     def test_valid_login(self):
         
         userName = "standard_user"
@@ -31,13 +33,18 @@ class LoginTest(unittest.TestCase):
         time.sleep(1)
         # assert result == webTitle
         self.test_status.markFinal("Verification Valid Login", result, "Valid Login")
+        self.navigation.navigationMenu()
+        self.navigation.navigationLogOut()
 
 
-    @pytest.mark.run(order=1)
+
+    # @pytest.mark.run(order=1)
     # @pytest.mark.skip(reason="test valid for now")
     def test_invalid_login(self):
         self.log.info("Running Logout for Invalid Test")
-        self.login_methods.logoutSession()
+        # self.login_methods.logoutSession()
+        self.navigation.navigationMenu()
+        self.navigation.navigationLogOut()
 
         userName = "standard_friend"
         password = "secret_sauce"
