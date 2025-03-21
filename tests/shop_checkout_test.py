@@ -7,6 +7,8 @@ import utilities.custom_logger as cl
 import logging
 import time
 
+global amount
+
 @pytest.mark.usefixtures("ClassSetup", "MethodSetup")
 class ShopCheckoutTest(unittest.TestCase):
 
@@ -43,6 +45,8 @@ class ShopCheckoutTest(unittest.TestCase):
     
     @pytest.mark.run(order=2)
     def test_your_cart(self):
+        global amount_cart
+
         self.log.info("Starting Click on Shopping Cart Test")
         self.shopCheckout_methods.clickShoppingCartButton()
 
@@ -52,6 +56,9 @@ class ShopCheckoutTest(unittest.TestCase):
         add_to_cart_text = self.shopCheckout_methods.verifyText(cart_locator, 
                                                                 locatorType="xpath")
         self.test_status.mark(add_to_cart_text, "Verify Your Cart text")
+
+        self.log.info("Starting Price text Verification Step")
+        amount_cart = self.shopCheckout_methods.getAmount()
 
         self.log.info("Starting Product Text Verification Step")
         description_locator = "//div[.='Sauce Labs Fleece Jacket']"
@@ -95,6 +102,13 @@ class ShopCheckoutTest(unittest.TestCase):
                                                         locatorType="xpath")
         self.test_status.mark(overview, "Verify Checkout Overview Text Step")
 
+        self.log.info("Starting Price text Verification Step")
+        amount_checkout = self.shopCheckout_methods.getAmount()
+        if amount_cart == amount_checkout:
+            self.test_status.mark(True, "Verify Amount is Kept")
+        else:
+            self.test_status.mark(False, "Verify Amount is Kept")
+        
         self.log.info("Starting Added Product text Step")
         # product = self.shopCheckout_methods.verifyDescription()
         description_locator = "//div[.='Sauce Labs Fleece Jacket']"

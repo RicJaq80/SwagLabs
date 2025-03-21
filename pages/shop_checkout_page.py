@@ -13,6 +13,7 @@ class ShopCheckoutPage(CommonPage):
     # select_product = "add-to-cart-sauce-labs-fleece-jacket"
     # select_product_2 = "add-to-cart-sauce-labs-onesie"
     shopping_cart = "//a[@class='shopping_cart_link']"
+    amount_locator = "//div[@class='inventory_item_price']"
     checkout_button = "//button[@id='checkout']"
 
     ############################################
@@ -75,6 +76,10 @@ class ShopCheckoutPage(CommonPage):
         # self.clickShoppingCart()
         self.elementClick(self.shopping_cart, locatorType="xpath")
         time.sleep(1)
+    
+    def getAmount(self):
+        amount = self.elementText(self.amount_locator, locatorType="xpath")
+        return amount
     
     def selectCheckout(self):
         # self.clickCheckoutButton()
