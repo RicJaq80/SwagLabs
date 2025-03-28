@@ -63,7 +63,9 @@ class ShopCheckoutPage(CommonPage):
     # General Text Methods
     ######################################
     def getText(self, locator, locatorType):
+        # print("getText Locator {0}".format(locator))
         txt = self.elementText(locator, locatorType)
+        # print("Get Text: {0}".format(txt))
         return txt
     
     def verifyText(self, locator, locatorType):
@@ -74,3 +76,13 @@ class ShopCheckoutPage(CommonPage):
             return True
         else:
             return False
+
+    ######################################
+    # Multiple GetText Methods
+    ######################################
+    def multipleGetText(self, iterator, locator, locatorType):
+        element_lst = []
+        for i in range(1, iterator+1):
+            element = self.getText(locator.format(i), locatorType)
+            element_lst.append(element)
+        return element_lst
