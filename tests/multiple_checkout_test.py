@@ -5,6 +5,7 @@ import utilities.custom_logger as cl
 import unittest
 import pytest
 import logging
+import time
 
 amount_cart_lst = []
 product_cart_lst = []
@@ -20,6 +21,7 @@ class MultipleCheckout(unittest.TestCase):
         self.navigation = NavigationPage(self.driver)
         self.test_status = TestStatus()
     
+
     @pytest.mark.run(order=1)
     def test_select_products(self):
         self.log.info("Starting Products text Test")
@@ -40,6 +42,7 @@ class MultipleCheckout(unittest.TestCase):
         self.test_status.markFinal("Select Product Test",
                                    shopping_cart,
                                    "Verify Product is Selected")
+
 
     @pytest.mark.run(order=2)
     def test_your_cart(self):
@@ -74,3 +77,22 @@ class MultipleCheckout(unittest.TestCase):
                                                                 locatorType="xpath")
         self.test_status.markFinal("Your Cart Test", 
                                    product_checkout, "Verify Product Description Text")
+
+
+    @pytest.mark.run(order=3)
+    def test_checkout_information(self):
+        self.log.info("Starting YourCart Test")
+        self.multipleCheckout_methods.selectCheckout()
+
+        self.log.info("Starting Checkout Information Test")
+        self.multipleCheckout_methods.checkoutInformation()
+        time.sleep(2)
+        
+        self.log.info("Starting Your Information text Step")
+        confirm_page = "//span[.='Checkout: Your Information']"
+        your_information = self.multipleCheckout_methods.verifyText(confirm_page, 
+                                                                locatorType="xpath")
+        self.test_status.markFinal("Customer Information Test", 
+                                   your_information, "Verify Customer Information")   
+
+

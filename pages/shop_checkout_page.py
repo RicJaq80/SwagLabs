@@ -16,9 +16,6 @@ class ShopCheckoutPage(CommonPage):
     ############################################
     # LOCATORS to add information after checkout
     ############################################
-    first_name_locator = "first-name" # id
-    last_name_locator = "last-name" # id
-    postal_code_locator = "postal-code" # id
     continue_locator = "continue" # id
     finish_locator = "//button[@id='finish']" # xpath
     complete_locator = "//span[.='Checkout: Complete!']"
@@ -43,11 +40,8 @@ class ShopCheckoutPage(CommonPage):
     ############################################################
     # Method that calls actions to add customer information
     ############################################################
-    def checkoutInformation(self, first_name, last_name, postal_code):
-        self.elementSendKeys(first_name, self.first_name_locator)
-        self.elementSendKeys(last_name, self.last_name_locator)
-        self.elementSendKeys(postal_code, self.postal_code_locator)
-        time.sleep(1)
+    def checkoutInformation(self):
+        self.add_customer_information()
     
     def continueButton(self):
         self.elementClick(self.continue_locator)

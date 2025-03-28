@@ -73,15 +73,11 @@ class ShopCheckoutTest(unittest.TestCase):
 
     @pytest.mark.run(order=3)
     def test_checkout_information(self):
-        first_name = "Tony"
-        last_name = "Jones"
-        postal_code = "90210"
-
         self.log.info("Starting YourCart Test")
         self.shopCheckout_methods.selectCheckout()
 
         self.log.info("Starting Checkout Information Test")
-        self.shopCheckout_methods.checkoutInformation(first_name, last_name, postal_code)
+        self.shopCheckout_methods.checkoutInformation()
         
         self.log.info("Starting Your Information text Step")
         confirm_page = "//span[.='Checkout: Your Information']"
