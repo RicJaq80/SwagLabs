@@ -23,7 +23,6 @@ class ShopCheckoutTest(unittest.TestCase):
     @pytest.mark.run(order=1)
     def test_select_product(self):
         self.log.info("Starting Products text Test")
-        # products_page = self.shopCheckout_methods.verifyProductsPage()
         products_locator = "//span[.='Products']"
         products_page = self.shopCheckout_methods.verifyText(products_locator, 
                                                              locatorType="xpath")
@@ -34,7 +33,6 @@ class ShopCheckoutTest(unittest.TestCase):
         self.shopCheckout_methods.selectProduct(select_product)
 
         self.log.info("Starting Shopping Cart Added Product text Test")
-        # shopping_cart = self.shopCheckout_methods.verifyShoppingCart()
         shopping_cart_badge = "//span[@class='shopping_cart_badge']"
         shopping_cart = self.shopCheckout_methods.verifyText(shopping_cart_badge, 
                                                              locatorType="xpath")
@@ -46,23 +44,27 @@ class ShopCheckoutTest(unittest.TestCase):
     @pytest.mark.run(order=2)
     def test_your_cart(self):
         global amount_cart
+        global product_cart
 
         self.log.info("Starting Click on Shopping Cart Test")
         self.shopCheckout_methods.clickShoppingCartButton()
 
         self.log.info("Starting Verify Your Cart text Step")
-        # add_to_cart_text = self.shopCheckout_methods.verifyAddToCart()
         cart_locator = "//span[.='Your Cart']"
         add_to_cart_text = self.shopCheckout_methods.verifyText(cart_locator, 
                                                                 locatorType="xpath")
         self.test_status.mark(add_to_cart_text, "Verify Your Cart text")
 
         self.log.info("Starting Price text Verification Step")
-        amount_cart = self.shopCheckout_methods.getAmount()
+        amount_locator = "//div[@class='inventory_item_price']"
+        amount_cart = self.shopCheckout_methods.getText(amount_locator, locatorType="xpath")
+
+        self.log.info("Starting Product text Verification Step")
+        product_locator = "//div[@class='inventory_item_name']"
+        product_cart = self.shopCheckout_methods.getText(product_locator, locatorType="xpath")
 
         self.log.info("Starting Product Text Verification Step")
         description_locator = "//div[.='Sauce Labs Fleece Jacket']"
-        # your_cart_text = self.shopCheckout_methods.verifyDescription()
         product_checkout = self.shopCheckout_methods.verifyText(description_locator, 
                                                                 locatorType="xpath")
         self.test_status.markFinal("Your Cart Test", 
@@ -83,7 +85,6 @@ class ShopCheckoutTest(unittest.TestCase):
         
         self.log.info("Starting Your Information text Step")
         confirm_page = "//span[.='Checkout: Your Information']"
-        # your_information = self.shopCheckout_methods.confirmInformationPage()
         your_information = self.shopCheckout_methods.verifyText(confirm_page, 
                                                                 locatorType="xpath")
         self.test_status.markFinal("Customer Information Test", 
@@ -92,25 +93,50 @@ class ShopCheckoutTest(unittest.TestCase):
     
     @pytest.mark.run(order=4)
     def test_checkout_overview(self):
+        w = "$"
+        s = ": "
+
         self.log.info("Starting the Continue button step")
         self.shopCheckout_methods.continueButton()
 
         self.log.info("Starting the Overview text Step")
-        # overview = self.shopCheckout_methods.verifyCheckoutOverview()
         overview_locator = "//span[.='Checkout: Overview']"
         overview = self.shopCheckout_methods.verifyText(overview_locator, 
                                                         locatorType="xpath")
         self.test_status.mark(overview, "Verify Checkout Overview Text Step")
 
+        self.log.info("Starting Product text Verification Step")
+        product_locator = "//div[@class='inventory_item_name']"
+        product_checkout = self.shopCheckout_methods.getText(product_locator, locatorType="xpath")
+        result_product = self.shopCheckout_methods.compareText(product_cart, product_checkout)
+        self.test_status.mark(result_product, "Verify Product Name is Kept")
+
         self.log.info("Starting Price text Verification Step")
-        amount_checkout = self.shopCheckout_methods.getAmount()
-        if amount_cart == amount_checkout:
-            self.test_status.mark(True, "Verify Amount is Kept")
-        else:
-            self.test_status.mark(False, "Verify Amount is Kept")
+        amount_locator = "//div[@class='inventory_item_price']"
+        amount_checkout = self.shopCheckout_methods.getText(amount_locator, locatorType="xpath")
+        result_amount = self.shopCheckout_methods.compareText(amount_cart, amount_checkout)
+        self.test_status.mark(result_amount, "Verify Amount is Kept")
+
+        self.log.info("Starting Subtotal Ammount text Verification Step")
+        subtotal_locator = "//div[@class='summary_subtotal_label']"
+        subtotal_checkout = self.shopCheckout_methods.getText(subtotal_locator, locatorType="xpath")
+        _, _, subtotal_checkout_extract = subtotal_checkout.partition(s)
+        result_subtotal = self.shopCheckout_methods.compareText(amount_cart, subtotal_checkout_extract)
+        self.test_status.mark(result_subtotal, "Verify Subtotal Amount")
+
+        self.log.info("Starting Total Ammount text Verification Step")
+        total_locator = "//div[@class='summary_total_label']"
+        total_checkout = self.shopCheckout_methods.getText(total_locator, locatorType="xpath")
+        tax_locator = "//div[@class='summary_tax_label']"
+        taxes = self.shopCheckout_methods.getText(tax_locator, locatorType="xpath")
+        _, _, subtotal_extract = subtotal_checkout_extract.partition(w)
+        _, _, total = total_checkout.partition(w)
+        _, _, tax = taxes.partition(w)
+        total_amount = float(subtotal_extract) + float(tax)
+        result_total = self.shopCheckout_methods.compareText(str(total_amount), total)
+        self.test_status.mark(result_total, "Verify Total Amount")
         
         self.log.info("Starting Added Product text Step")
-        # product = self.shopCheckout_methods.verifyDescription()
         description_locator = "//div[.='Sauce Labs Fleece Jacket']"
         product_checkout = self.shopCheckout_methods.verifyText(description_locator, 
                                                                 locatorType="xpath")
@@ -125,14 +151,12 @@ class ShopCheckoutTest(unittest.TestCase):
 
         self.log.info("Starting the Checkout Complete text test")
         complete_locator = "//span[.='Checkout: Complete!']"
-        # complete = self.shopCheckout_methods.verifyCheckoutComplete()
         complete = self.shopCheckout_methods.verifyText(complete_locator, 
                                                         locatorType="xpath")
         self.test_status.mark(complete, "Verify Checkout Complete text step")
 
         self.log.info("Starting the Thank You text step")
         thankyou_locator = "//h2[normalize-space()='Thank you for your order!']"
-        # thankyou = self.shopCheckout_methods.verifyThankyou()
         thankyou = self.shopCheckout_methods.verifyText(thankyou_locator, 
                                                         locatorType="xpath")
         self.test_status.mark(thankyou, "Verify the Thank you text Step")
@@ -142,12 +166,12 @@ class ShopCheckoutTest(unittest.TestCase):
         time.sleep(2)
 
         self.log.info("Starting Products text Test")
-        # products_page = self.shopCheckout_methods.verifyProductsPage()
         products_locator = "//span[.='Products']"
         products_page = self.shopCheckout_methods.verifyText(products_locator, 
                                                              locatorType="xpath")
         self.test_status.markFinal("Checkout Complete Test", 
                                    products_page, "Verify Products Page")
+        
         self.navigation.navigationMenu()
         self.navigation.navigationLogOut()
         time.sleep(2)
