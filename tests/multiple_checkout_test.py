@@ -80,7 +80,7 @@ class MultipleCheckout(unittest.TestCase):
         self.log.info("Starting Cart Badge Verification Step")
         cart_badge = self.multipleCheckout_methods.cartBadge(n)
         self.test_status.markFinal("Your Cart Badge Test", 
-                                   product_checkout, "Verify Product Description Text")
+                                   cart_badge, "Verify Product Description Text")
 
 
     @pytest.mark.run(order=3)
