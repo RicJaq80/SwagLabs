@@ -21,6 +21,7 @@ class ShopCheckoutPage(CommonPage):
     complete_locator = "//span[.='Checkout: Complete!']"
     thankyou_locator = "//h2[normalize-space()='Thank you for your order!']"
     back_locator = "back-to-products"
+    cart_badge_locator = "//span[.='{}']"
 
     ############################################################
     # Method that calls actions from select product to checkout
@@ -52,6 +53,10 @@ class ShopCheckoutPage(CommonPage):
 
     def checkoutComplete(self):
         self.elementClick(self.back_locator)
+    
+    def cartBadge(self, n):
+        return self.isElementPresent(self.cart_badge_locator.format(n), 
+                                     locatorType="xpath")
     
     ######################################
     # General Text Methods
