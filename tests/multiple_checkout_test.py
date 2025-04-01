@@ -9,6 +9,7 @@ import time
 
 amount_cart_lst = []
 product_cart_lst = []
+n = 2
 
 @pytest.mark.usefixtures("ClassSetup", "MethodSetup")
 class MultipleCheckout(unittest.TestCase):
@@ -48,7 +49,7 @@ class MultipleCheckout(unittest.TestCase):
     def test_your_cart(self):
         global amount_cart_lst
         global product_cart_lst
-        n = 2
+        global n
 
         self.log.info("Starting Click on Shopping Cart Test")
         self.multipleCheckout_methods.clickShoppingCartButton()
@@ -98,5 +99,33 @@ class MultipleCheckout(unittest.TestCase):
                                                                 locatorType="xpath")
         self.test_status.markFinal("Customer Information Test", 
                                    your_information, "Verify Customer Information")   
+
+
+    def test_checkout_overview(self):
+        """
+        # global amount_cart_lst - it has the products's amounts
+        # global product_cart_lst -  it has the products's names
+        """
+        w = "$"
+        s = ": "
+
+        self.log.info("Starting the Continue button step")
+        self.multipleCheckout_methods.continueButton()
+
+        self.log.info("Starting the Overview text Step")
+        overview_locator = "//span[.='Checkout: Overview']"
+        overview = self.multipleCheckout_methods.verifyText(overview_locator, 
+                                                        locatorType="xpath")
+        self.test_status.mark(overview, "Verify Checkout Overview Text Step")
+
+        self.log.info("Starting Product text Verification Step")
+        product_locator = "(//div[@class='inventory_item_name'])[{0}]"
+        product_checkout = self.multipleCheckout_methods.multipleGetText(n, product_locator, 
+                                                                locatorType="xpath")
+        print(product_checkout)
+        # result_product = self.multipleCheckout_methods.compareText(product_checkout, 
+        #                                                           product_cart_lst)
+        # self.test_status.mark(result_product, "Verify Product Name is Kept")
+        
 
 
