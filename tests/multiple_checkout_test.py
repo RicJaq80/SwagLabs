@@ -75,7 +75,11 @@ class MultipleCheckout(unittest.TestCase):
         for locator in description_locator:
             product_checkout = self.multipleCheckout_methods.verifyText(locator, 
                                                                 locatorType="xpath")
-        self.test_status.markFinal("Your Cart Test", 
+            self.test_status.mark(product_checkout, "Verify Your Cart text")
+        
+        self.log.info("Starting Cart Badge Verification Step")
+        cart_badge = self.multipleCheckout_methods.cartBadge(n)
+        self.test_status.markFinal("Your Cart Badge Test", 
                                    product_checkout, "Verify Product Description Text")
 
 
