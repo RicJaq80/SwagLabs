@@ -88,10 +88,7 @@ class ShopCheckoutTest(unittest.TestCase):
         
     
     @pytest.mark.run(order=4)
-    def test_checkout_overview(self):
-        w = "$"
-        s = ": "
-
+    def test_checkout_overview_part1(self):
         self.log.info("Starting the Continue button step")
         self.shopCheckout_methods.continueButton()
 
@@ -113,6 +110,11 @@ class ShopCheckoutTest(unittest.TestCase):
         result_amount = self.shopCheckout_methods.compareText(amount_cart, amount_checkout)
         self.test_status.mark(result_amount, "Verify Amount is Kept")
 
+    @pytest.mark.run(order=5)
+    def test_checkout_overview_part2(self):
+        w = "$"
+        s = ": "
+    
         self.log.info("Starting Subtotal Ammount text Verification Step")
         subtotal_locator = "//div[@class='summary_subtotal_label']"
         subtotal_checkout = self.shopCheckout_methods.getText(subtotal_locator, locatorType="xpath")
@@ -140,7 +142,7 @@ class ShopCheckoutTest(unittest.TestCase):
                                    product_checkout, "Verify the Added Product text Step")
         
     
-    @pytest.mark.run(order=5)
+    @pytest.mark.run(order=6)
     def test_checkout_complete(self):
         self.log.info("Finish the Select Product Valid Test")
         self.shopCheckout_methods.checkoutFinish()
