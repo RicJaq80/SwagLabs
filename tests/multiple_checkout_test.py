@@ -125,7 +125,7 @@ class MultipleCheckout(unittest.TestCase):
                                                                 locatorType="xpath")
         result_price = self.multipleCheckout_methods.compareText(amount_checkout, 
                                                                    amount_cart_lst)
-        self.test_status.mark(result_product, "Verify Product Name is Kept")
+        self.test_status.mark(result_price, "Verify Product Name is Kept")
 
         self.log.info("Starting Cart Badge Verification Step")
         cart_badge = self.multipleCheckout_methods.cartBadge(n)
