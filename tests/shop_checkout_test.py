@@ -115,14 +115,14 @@ class ShopCheckoutTest(unittest.TestCase):
         w = "$"
         s = ": "
     
-        self.log.info("Starting Subtotal Ammount text Verification Step")
+        self.log.info("Starting Subtotal Amount text Verification Step")
         subtotal_locator = "//div[@class='summary_subtotal_label']"
         subtotal_checkout = self.shopCheckout_methods.getText(subtotal_locator, locatorType="xpath")
         _, _, subtotal_checkout_extract = subtotal_checkout.partition(s)
         result_subtotal = self.shopCheckout_methods.compareText(amount_cart, subtotal_checkout_extract)
         self.test_status.mark(result_subtotal, "Verify Subtotal Amount")
 
-        self.log.info("Starting Total Ammount text Verification Step")
+        self.log.info("Starting Total Amount text Verification Step")
         total_locator = "//div[@class='summary_total_label']"
         total_checkout = self.shopCheckout_methods.getText(total_locator, locatorType="xpath")
         tax_locator = "//div[@class='summary_tax_label']"

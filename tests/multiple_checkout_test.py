@@ -100,15 +100,8 @@ class MultipleCheckout(unittest.TestCase):
         self.test_status.markFinal("Customer Information Test", 
                                    your_information, "Verify Customer Information")   
 
-
-    def test_checkout_overview(self):
-        """
-        # global amount_cart_lst - it has the products's amounts
-        # global product_cart_lst -  it has the products's names
-        """
-        w = "$"
-        s = ": "
-
+    @pytest.mark.run(order=4)
+    def test_checkout_overview_part1(self):
         self.log.info("Starting the Continue button step")
         self.multipleCheckout_methods.continueButton()
 
@@ -122,10 +115,87 @@ class MultipleCheckout(unittest.TestCase):
         product_locator = "(//div[@class='inventory_item_name'])[{0}]"
         product_checkout = self.multipleCheckout_methods.multipleGetText(n, product_locator, 
                                                                 locatorType="xpath")
-        print(product_checkout)
-        # result_product = self.multipleCheckout_methods.compareText(product_checkout, 
-        #                                                           product_cart_lst)
-        # self.test_status.mark(result_product, "Verify Product Name is Kept")
+        result_product = self.multipleCheckout_methods.compareText(product_checkout, 
+                                                                   product_cart_lst)
+        self.test_status.mark(result_product, "Verify Product Name is Kept")
+
+        self.log.info("Starting Price text Verification Step")
+        amount_locator = "(//div[@class='inventory_item_price'])[{0}]"
+        amount_checkout = self.multipleCheckout_methods.multipleGetText(n, amount_locator, 
+                                                                locatorType="xpath")
+        result_price = self.multipleCheckout_methods.compareText(amount_checkout, 
+                                                                   amount_cart_lst)
+        self.test_status.mark(result_product, "Verify Product Name is Kept")
+
+        self.log.info("Starting Cart Badge Verification Step")
+        cart_badge = self.multipleCheckout_methods.cartBadge(n)
+        self.test_status.markFinal("Your Cart Badge Test", 
+                                   cart_badge, "Verify Product Description Text")
+    
+    @pytest.mark.run(order=5)
+    def test_checkout_overview_part2(self):
+        w = "$"
+        s = ": "
+        new_lst = []
+
+        self.log.info("Starting Subtotal Amount text Verification Step")
+        subtotal_locator = "//div[@class='summary_subtotal_label']"
+        subtotal_checkout = self.multipleCheckout_methods.getText(subtotal_locator,
+                                                                  locatorType="xpath")
+        _, _, subtotal_checkout_extract = subtotal_checkout.partition(w)
+        # value of subtotal_checkout_extract: 57.980000000000004
+        #convert to float the values of amount_cart_lst and sum them
+        #  ['$49.99', '$7.99']
+        for i in amount_cart_lst:
+            _, _, subtotal_extract = i.partition(w)
+            new_lst.append(float(subtotal_extract))
+        subtotal_checkout_sum = sum(new_lst)
+        result_subtotal = self.multipleCheckout_methods.compareText(str(subtotal_checkout_sum), 
+                                                                    subtotal_checkout_extract)
+        self.test_status.mark(result_subtotal, "Verify Subtotal Amount")
+
+        self.log.info("Starting Total Ammount text Verification Step")
+        tax_locator = "//div[@class='summary_tax_label']"
+        taxes = self.multipleCheckout_methods.getText(tax_locator, locatorType="xpath")
+        _, _, tax = taxes.partition(w)
+
+        total_locator = "//div[@class='summary_total_label']"
+        total_checkout = self.multipleCheckout_methods.getText(total_locator, locatorType="xpath")
+        _, _, total = total_checkout.partition(w)
+
+        total_amount = subtotal_checkout_sum + float(tax)
+        total_amount_string = str(total_amount)
+        result_total = self.multipleCheckout_methods.compareText(total_amount_string[:5], total)
+        self.test_status.markFinal("Compare Amounts", result_total, "Verify Total Amount")
+
+    @pytest.mark.run(order=6)
+    def test_checkout_complete(self):
+        self.log.info("Finish the Select Product Valid Test")
+        self.multipleCheckout_methods.checkoutFinish()
+
+        self.log.info("Starting the Checkout Complete text test")
+        complete_locator = "//span[.='Checkout: Complete!']"
+        complete = self.multipleCheckout_methods.verifyText(complete_locator, 
+                                                        locatorType="xpath")
+        self.test_status.mark(complete, "Verify Checkout Complete text step")
+
+        self.log.info("Starting the Thank You text step")
+        thankyou_locator = "//h2[normalize-space()='Thank you for your order!']"
+        thankyou = self.multipleCheckout_methods.verifyText(thankyou_locator, 
+                                                        locatorType="xpath")
+        self.test_status.mark(thankyou, "Verify the Thank you text Step")
         
+        self.log.info("Starting the Back Home step")
+        self.multipleCheckout_methods.checkoutComplete()
+        time.sleep(2)
 
-
+        self.log.info("Starting Products text Test")
+        products_locator = "//span[.='Products']"
+        products_page = self.multipleCheckout_methods.verifyText(products_locator, 
+                                                             locatorType="xpath")
+        self.test_status.markFinal("Checkout Complete Test", 
+                                   products_page, "Verify Products Page")
+        
+        self.navigation.navigationMenu()
+        self.navigation.navigationLogOut()
+        time.sleep(2)
